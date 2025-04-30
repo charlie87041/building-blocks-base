@@ -123,4 +123,125 @@ class SimplePhpFileParser implements PhpParserInterface
 
         return '\\' . rtrim($namespace, '\\') . '\\' . $shortName; // Normalize FQCN
     }
+
+    public function extractMethodCalls(string $class, string $method): array
+    {
+        $result = [];
+
+        if (!class_exists($class)) {
+            return $result;
+        }
+
+        $reflection = new \ReflectionClass($class);
+        if (!$reflection->hasMethod($method)) {
+            return $result;
+        }
+
+        $methodCode = $this->getMethodSource($reflection->getMethod($method));
+        $aliasMap = $this->parseUseStatements($reflection->getFileName());
+        $instanceMap = $this->buildInstanceMap($reflection->getMethod($method), $methodCode, $aliasMap);
+
+        if (preg_match_all('/\$(\w+)->(\w+)\s*\(/', $methodCode, $matches)) {
+            foreach ($matches[1] as $i => $varName) {
+                $calledMethod = $matches[2][$i];
+                if (isset($instanceMap[$varName])) {
+                    $fqcn = $instanceMap[$varName];
+                    $result[$fqcn][] = $calledMethod;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    protected function getMethodSource(\ReflectionMethod $method): string
+    {
+        $file = $method->getFileName();
+        $lines = file($file);
+
+        return implode("", array_slice(
+            $lines,
+            $method->getStartLine() - 1,
+            $method->getEndLine() - $method->getStartLine() + 1
+        ));
+    }
+
+
+    protected function buildInstanceMap(\ReflectionMethod $method, string $methodCode, array $aliasMap): array
+    {
+        $instanceMap = [];
+
+        // Inyecciones por tipo en la firma
+        foreach ($method->getParameters() as $param) {
+            $type = $param->getType();
+            if ($type && !$type->isBuiltin()) {
+                $fqcn = '\\' . ltrim($type->getName(), '\\');
+                $instanceMap[$param->getName()] = $fqcn;
+            }
+        }
+
+        // Instancias por "new"
+        if (preg_match_all('/\$(\w+)\s*=\s*new\s+([\w\\\\]+)/', $methodCode, $matches)) {
+            foreach ($matches[1] as $i => $varName) {
+                $used = $matches[2][$i];
+                $resolved = $aliasMap[$used] ?? $used;
+                $instanceMap[$varName] = '\\' . ltrim($resolved, '\\');
+            }
+        }
+
+        return $instanceMap;
+    }
+
+
+    public function extractInjectedDependencies(string $class, string $method): array
+    {
+        $result = [];
+
+        if (!class_exists($class)) {
+            return $result;
+        }
+
+        $reflection = new \ReflectionClass($class);
+        if (!$reflection->hasMethod($method)) {
+            return $result;
+        }
+
+        $params = $reflection->getMethod($method)->getParameters();
+
+        foreach ($params as $param) {
+            $type = $param->getType();
+            if ($type && !$type->isBuiltin()) {
+                $fqcn = '\\' . ltrim($type->getName(), '\\');
+                $result[] = $fqcn;
+            }
+        }
+
+        return $result;
+    }
+    public function detectFormRequestClasses(string $class, string $method): array
+    {
+        $formRequests = [];
+
+        if (!class_exists($class)) {
+            return [];
+        }
+
+        $reflection = new \ReflectionClass($class);
+        if (!$reflection->hasMethod($method)) {
+            return [];
+        }
+
+        foreach ($reflection->getMethod($method)->getParameters() as $param) {
+            $type = $param->getType();
+            if ($type && class_exists($type->getName())) {
+                $paramClass = new \ReflectionClass($type->getName());
+                if ($paramClass->isSubclassOf(\Illuminate\Foundation\Http\FormRequest::class)) {
+                    $formRequests[] = $paramClass->getName();
+                }
+            }
+        }
+
+        return $formRequests;
+    }
+
 }

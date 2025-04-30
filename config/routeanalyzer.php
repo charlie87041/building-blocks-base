@@ -12,6 +12,10 @@ return [
             \App\Pipes\Routes\BuildOwlOntologyPipe::class,
             \App\Pipes\DebugPipe::class
         ],
+        'routes_execution' => [
+            App\Pipes\RoutesExecution\ExtractRouteExecutionDataPipe::class,
+            App\Pipes\RoutesExecution\BuildUnifiedCodeFilePipe::class,
+        ],
 
     ],
     'parser' => \App\Support\Parser\SimplePhpFileParser::class,

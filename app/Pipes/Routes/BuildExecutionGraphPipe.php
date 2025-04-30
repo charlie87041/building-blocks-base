@@ -5,7 +5,6 @@ namespace App\Pipes\Routes;
 use App\Contexts\RouteAnalysisContext;
 use App\Support\Categorizer\CategorizerFactory;
 use App\Support\Storage\GraphStorageFactory;
-use Illuminate\Support\Facades\Storage;
 
 class BuildExecutionGraphPipe
 {
@@ -22,6 +21,7 @@ class BuildExecutionGraphPipe
         }
 
         $categorizer = CategorizerFactory::make();
+        $storage = GraphStorageFactory::make();
 
         foreach ($classDependencyMap as $class => $data) {
             $this->addNode($class, $categorizer);
@@ -38,15 +38,19 @@ class BuildExecutionGraphPipe
             'nodes' => array_values($this->nodes),
             'edges' => $this->edges,
         ];
-        $storage = GraphStorageFactory::make();
+
+        // Guardamos el grafo como JSON
         $storage->save('route-analysis/execution-graph.json', $graph);
+
+        // Guardamos el classDependencyMap como JSON
+        $storage->save('route-analysis/class-dependency-map.json', $classDependencyMap);
 
         return $next($context);
     }
 
     protected function addNode(string $fqcn, $categorizer)
     {
-        $fqcn = '\\' . ltrim($fqcn, '\\'); // Normalize
+        $fqcn = '\\' . ltrim($fqcn, '\\');
 
         if (isset($this->seenNodes[$fqcn])) {
             return;
