@@ -59,6 +59,28 @@ class LlmExpert
         return is_string($raw) && trim($raw) !== '' ? $raw : null;
     }
 
+    public function normalizeFromPrompt(string $prompt): array
+    {
+        $url = str_replace('{key}', $this->config['key'], $this->extra['url']);
+        $headers = $this->buildHeaders();
+        $payload = $this->buildPayload($prompt);
+
+        $response = Http::withHeaders($headers)->post($url, $payload);
+
+        if (!$response->successful()) {
+            logger()->error("Error al normalizar matriz con {$this->name}", [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+            return [];
+        }
+
+        $raw = Arr::get($response->json(), $this->extra['response_path'] ?? '');
+        $decoded = json_decode($raw, true);
+
+        return is_array($decoded) ? $decoded : [];
+    }
+
     protected function sendPrompt(string $prompt): array
     {
         $url = str_replace('{key}', $this->config['key'], $this->extra['url']);
@@ -126,27 +148,6 @@ class LlmExpert
         return $data;
     }
 
-    public function normalizeFromPrompt(string $prompt): array
-    {
-        $url = str_replace('{key}', $this->config['key'], $this->extra['url']);
-        $headers = $this->buildHeaders();
-        $payload = $this->buildPayload($prompt);
-
-        $response = Http::withHeaders($headers)->post($url, $payload);
-
-        if (!$response->successful()) {
-            logger()->error("Error al normalizar matriz con {$this->name}", [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
-            return [];
-        }
-
-        $raw = Arr::get($response->json(), $this->extra['response_path'] ?? '');
-        $decoded = json_decode($raw, true);
-
-        return is_array($decoded) ? $decoded : [];
-    }
 
 
 }
