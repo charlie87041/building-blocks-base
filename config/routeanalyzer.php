@@ -16,6 +16,13 @@ return [
             App\Pipes\RoutesExecution\ExtractRouteExecutionDataPipe::class,
             App\Pipes\RoutesExecution\BuildUnifiedCodeFilePipe::class,
         ],
+        'routes_matrix' => [
+            \App\Pipes\RoutesMatrix\GenerateValidationMatrixPipe::class,
+            \App\Pipes\RoutesMatrix\GenerateLogicMatrixPipe::class,
+            \App\Pipes\RoutesMatrix\GenerateAuthMatrixPipe::class,
+            \App\Pipes\RoutesMatrix\NormalizeTestMatrixPipe::class,
+            \App\Pipes\RoutesMatrix\WriteTestMatrixToStoragePipe::class
+        ],
 
     ],
     'parser' => \App\Support\Parser\SimplePhpFileParser::class,

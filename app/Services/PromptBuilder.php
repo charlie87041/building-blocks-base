@@ -1,0 +1,158 @@
+<?php
+
+namespace App\Services;
+
+use App\Pipes\RoutesMatrix\TestMatrix;
+
+class PromptBuilder
+{
+    /**
+     * Genera un prompt exhaustivo para que un LLM analice el código consolidado
+     * de una ruta Laravel y devuelva una matriz de pruebas.
+     *
+     * @param string $code El código consolidado (.code.txt)
+     * @param string|null $suffix Opcional: texto adicional específico para un experto
+     * @return string Prompt listo para enviar al LLM
+     */
+    public static function forCodeAnalysis(string $code, ?string $suffix = '', string $focus = 'full'): string
+    {
+        $extraInstructions = '';
+
+        if ($focus === TestMatrix::VALIDATION_FLOW) {
+            $extraInstructions = <<<TXT
+                Concéntrate exclusivamente en las validaciones de entrada. Genera escenarios de:
+                - Datos faltantes, mal formateados o inválidos.
+                - Casos límite de campos.
+                - Entradas que violan las reglas definidas en FormRequest o llamadas a validate().
+                - Casos exitosos con inputs válidos.
+
+                Ignora lógica interna o dependencias del sistema.
+            TXT;
+        } else if ($focus === TestMatrix::LOGIC_FLOW) {
+            $extraInstructions = <<<TXT
+                Debes incluir escenarios que reflejen:
+                    - Caminos condicionales (if, else, aborts, retornos tempranos, excepciones)
+                    - Llamadas a servicios, pipes, repositorios o cualquier clase auxiliar
+                    - Resultados dependientes de valores internos (ej. estados, flags, configuraciones)
+                    - Efectos secundarios como dispatch de eventos, registros en log, actualización de estado
+                    - Mocks necesarios para simular condiciones del sistema o resultados de servicios
+                    - Y en general pruebas que evaluen la lógica del código
+                No generes casos de validación ni de permisos de usuario. Enfócate en los caminos posibles dentro del flujo de ejecución del código y sus efectos.
+
+                TXT;
+        } else if ($focus === TestMatrix::AUTH_FLOW) {
+        $extraInstructions = <<<TXT
+
+             Concéntrate únicamente en el control de acceso. Incluye escenarios como:
+            - Accesos permitidos y denegados según el rol del usuario
+            - Verificaciones en políticas (Policy::class), gates, middleware de autorización
+            - Casos donde el usuario no tiene permisos suficientes o está bloqueado
+            - Rutas que dependen de reglas como `can:`, `Gate::allows`, `abort_if(!auth()->user()->hasPermission(...))`
+            - Efectos de acceso denegado (ej. código 403, redirecciones, abortos)
+
+            No generes escenarios de validación de datos ni de lógica interna..
+            TXT;
+    }
+        return  self::baseMatrixPrompt($code, $suffix, $extraInstructions);
+
+    }
+
+    public static function baseMatrixPrompt(string $code, ?string $suffix = '', $extraInstructions = ''): string
+    {
+        return <<<PROMPT
+            El siguiente bloque contiene todo el código relacionado a una ruta de una aplicación Laravel: controlador, Form Requests, middleware y clases de servicio.
+
+            Tu tarea es analizar completamente este código y generar una matriz de pruebas **exhaustiva** que cubra todos los escenarios relevantes.
+
+            Concéntrate exclusivamente en las validaciones de entrada. Genera escenarios de:
+            - Datos faltantes, mal formateados o inválidos.
+            - Casos límite de campos.
+            - Entradas que violan las reglas definidas en FormRequest o llamadas a validate().
+            - Casos exitosos con inputs válidos.
+
+            Ignora lógica interna o dependencias del sistema.
+
+            {$extraInstructions}
+
+            ### Formato de salida:
+            Una lista en JSON con objetos que contengan:
+            - "title": nombre del escenario de prueba.
+            - "input": array con los datos enviados.
+            - "mocks": array con servicios o condiciones externas simuladas.
+
+            El archivo debe ser exhaustivo y cubrir **todos los caminos posibles** que puedan surgir del análisis de este código.
+
+            Código a analizar:
+            {$code}
+
+            Responde solo con el JSON. No incluyas explicaciones.
+            PROMPT;
+    }
+
+    public static function normalizeTestMatrixPompt($json)
+    {
+        return <<<PROMPT
+            A continuación recibirás una matriz de pruebas generada por múltiples expertos LLM. Tu tarea es:
+
+            - Deduplicar los escenarios similares
+            - Unificar estructura y formato
+            - Elegir el nombre más claro para cada "title"
+            - Simplificar los "mocks" donde sea redundante
+            - Eliminar entradas repetidas o contradictorias
+
+            Conserva todos los casos válidos, pero elimina lo innecesario.
+            Responde solo con un JSON con el mismo formato: una lista de objetos con "title", "input" y "mocks".
+
+            Matriz original:
+            {$json}
+        PROMPT;
+    }
+
+    public static function forSelfReview(string $code, array $previousMatrix): string
+    {
+        $previous = json_encode($previousMatrix, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        return <<<PROMPT
+            A continuación se muestra el código completo de una ruta Laravel y una matriz de pruebas que tú mismo generaste previamente.
+
+            Tu tarea es revisar si esa matriz cubre **todos los escenarios posibles** que pueden derivarse de dicho código.
+
+            - Si consideras que la matriz **ya es completa**, responde con un array JSON vacío: `[]`
+            - Si identificas **escenarios que omitiste**, responde con una nueva lista en el mismo formato, solo con los casos faltantes.
+
+            El formato de cada elemento debe incluir:
+            - "title": nombre del escenario
+            - "input": array con los datos enviados
+            - "mocks": array con condiciones externas o dependencias simuladas
+
+            Código original:
+                {$code}
+            Tu respuesta previa:
+                {$previous}
+            Responde solo con JSON. No incluyas explicaciones ni comentarios.
+            PROMPT;
+    }
+
+    public static function forTestGeneration(string $routeUri, array $scenario, string $testFormat = 'pest'): string
+    {
+        $scenarioJson = json_encode($scenario, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        return <<<PROMPT
+        A continuación recibirás un escenario de prueba basado en una ruta Laravel. Tu tarea es generar el código de prueba automatizada correspondiente en formato "{$testFormat}".
+
+        Incluye:
+        - Preparación de mocks según lo descrito en "mocks"
+        - Envío de input (generalmente usando postJson o similar)
+        - Asserts necesarios para verificar que el escenario funcione correctamente
+
+        No expliques nada. Responde solo con el archivo PHP completo. Agrega comentarios al código si lo ve necesario
+
+        Ruta: {$routeUri}
+
+        Escenario:
+            {$scenarioJson}
+        PROMPT;
+    }
+
+
+}

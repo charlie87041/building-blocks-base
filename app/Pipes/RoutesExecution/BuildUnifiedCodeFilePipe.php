@@ -3,6 +3,7 @@
 namespace App\Pipes\RoutesExecution;
 
 use App\Contexts\RouteExecutionContext;
+use App\Support\Helpers;
 use App\Support\Storage\GraphStorageFactory;
 use App\Support\Storage\GraphStorageInterface;
 use ReflectionClass;
@@ -45,7 +46,7 @@ class BuildUnifiedCodeFilePipe
             return $next($context);
         }
 
-        $normalizedRoute = $this->normalizeRouteToFileName($route['uri'] ?? 'unknown');
+        $normalizedRoute = Helpers::normalizeRouteToFileName($route['uri'] ?? 'unknown');
         $storage->save("route-analysis/unified-code/{$normalizedRoute}.code.txt", ['raw' => implode("\n", $output)]);
         $this->saveIndexFile($storage, $route, $output);
         return $next($context);
@@ -78,7 +79,6 @@ class BuildUnifiedCodeFilePipe
 
         $codeLines = array_slice($lines, $start, $end - $start + 1);
 
-        // Validar llaves abiertas y cerradas
         $joined = implode("", $codeLines);
         $openCount = substr_count($joined, '{');
         $closeCount = substr_count($joined, '}');
@@ -94,19 +94,13 @@ class BuildUnifiedCodeFilePipe
         return implode("", $codeLines);
     }
 
-    protected function normalizeRouteToFileName(string $uri): string
-    {
-        $uri = str_replace(['/', '{', '}'], ['-', '', ''], $uri);
-        return strtolower(trim($uri, '-'));
-    }
 
     protected function saveIndexFile(GraphStorageInterface $storage, array $route, array $output)
     {
-        $normalizedRoute = $this->normalizeRouteToFileName($route['uri'] ?? 'unknown');
+        $normalizedRoute = Helpers::normalizeRouteToFileName($route['uri'] ?? 'unknown');
         $filename = "{$normalizedRoute}.code.txt";
         $storage->save("route-analysis/unified-code/{$filename}", ['raw' => implode("\n", $output)]);
 
-// 7. Actualizar índice
         $indexPath = 'route-analysis/routes-index.json';
         $index = $storage->load($indexPath) ?? [];
 

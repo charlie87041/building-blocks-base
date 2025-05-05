@@ -18,13 +18,20 @@ class LocalGraphStorage  implements GraphStorageInterface
 
     public function load(string $path): ?array
     {
+        $contents = $this->loadRaw($path);
+        return json_decode($contents, true);
+    }
+    public function loadRaw(string $path): ?string
+    {
         if (!Storage::disk('local')->exists($path)) {
             return null;
         }
 
-        $contents = Storage::disk('local')->get($path);
+        return Storage::disk('local')->get($path);
+    }
 
-        // Para OWL, no haría falta cargarlo como array
-        return json_decode($contents, true);
+    public function saveRaw(string $path, string $graph): void
+    {
+        Storage::disk('local')->put($path, json_encode($graph, JSON_PRETTY_PRINT));
     }
 }
