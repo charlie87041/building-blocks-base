@@ -51,4 +51,20 @@ class GenerateRouteTestMatrixCommand extends AnalyzeRouteTestMatrixCommand
         ]);
     }
 
+
+    protected function getPipelineConfigKey(): string
+    {
+        return 'tests';
+    }
+
+    protected function getDescriptionLabel(): string
+    {
+        return 'Route Test Generation';
+    }
+
+    protected function buildPipeline(array $pipes, $context)
+    {
+        return PipeBuilder::makeTestBuilder($pipes, $context);
+    }
+
 }

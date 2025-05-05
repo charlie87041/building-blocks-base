@@ -8,6 +8,7 @@ use App\Contexts\RouteTestMatrixContext;
 use App\Pipes\Routes\RouteAnalysisPipeBuilder;
 use App\Pipes\RoutesExecution\RouteExecutionPipeBuilder;
 use App\Pipes\RoutesMatrix\TestMatrixPipeBuilder;
+use App\Pipes\TestGeneration\TestExecutionPipeBuilder;
 
 class PipeBuilder
 {
@@ -34,5 +35,13 @@ class PipeBuilder
         }
 
         return new TestMatrixPipeBuilder($context, $pipes);
+    }
+    public static function makeTestBuilder(array $pipes, RouteTestMatrixContext $context): PipeBuilderInterface
+    {
+        if ($context->requiresAsync) {
+            throw new \Exception('Async pipeline not yet implemented.');
+        }
+
+        return new TestExecutionPipeBuilder($context, $pipes);
     }
 }

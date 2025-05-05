@@ -23,6 +23,9 @@ return [
             \App\Pipes\RoutesMatrix\NormalizeTestMatrixPipe::class,
             \App\Pipes\RoutesMatrix\WriteTestMatrixToStoragePipe::class
         ],
+        'tests' => [
+            \App\Pipes\TestGeneration\GenerateTestFilePipe::class
+        ]
 
     ],
     'parser' => \App\Support\Parser\SimplePhpFileParser::class,
