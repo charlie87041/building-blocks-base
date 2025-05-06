@@ -34,4 +34,16 @@ class LocalGraphStorage  implements GraphStorageInterface
     {
         Storage::disk('local')->put($path, json_encode($graph, JSON_PRETTY_PRINT));
     }
+
+    public function new(string $dir): void
+    {
+        Storage::disk('local')->put($dir,"");
+    }
+
+    public function path($path)
+    {
+        if (!Storage::disk('local')->exists($path))
+            $this->new($path);
+        return  Storage::disk('local')->path($path);
+    }
 }

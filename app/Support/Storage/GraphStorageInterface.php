@@ -9,4 +9,7 @@ interface GraphStorageInterface
 
     public function load(string $path): ?array;
     public function loadRaw(string $path): ?string;
+    public function new(string $dir): void;
+
+    public function path($path);
 }

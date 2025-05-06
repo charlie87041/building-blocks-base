@@ -2,9 +2,11 @@
 
 namespace App\Pipes;
 
+use App\Contexts\AppArchitectureContext;
 use App\Contexts\RouteAnalysisContext;
 use App\Contexts\RouteExecutionContext;
 use App\Contexts\RouteTestMatrixContext;
+use App\Pipes\CleanCode\CleanCodePipeBuilder;
 use App\Pipes\DocsGeneration\DocsPipeBuilder;
 use App\Pipes\Routes\RouteAnalysisPipeBuilder;
 use App\Pipes\RoutesExecution\RouteExecutionPipeBuilder;
@@ -50,5 +52,12 @@ class PipeBuilder
             throw new \Exception('Async pipeline not yet implemented.');
         }
         return new DocsPipeBuilder($context, $pipes);
+    }
+    public static function makeProjectArchitectureCheckerBuilder(array $pipes, AppArchitectureContext $context): PipeBuilderInterface
+    {
+        if ($context->requiresAsync) {
+            throw new \Exception('Async pipeline not yet implemented.');
+        }
+        return new CleanCodePipeBuilder($context, $pipes);
     }
 }

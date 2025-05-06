@@ -1,0 +1,13 @@
+Las capas son: Controller, Service, Repository, Model, Infrastructure.
+
+Los controllers solo pueden depender de servicios.
+
+Los servicios pueden depender de repositorios y modelos.
+
+Los repositorios pueden depender de modelos.
+
+Los modelos no deben depender de ninguna otra capa.
+
+Solo la capa Infrastructure puede acceder a DB:: o Cache::.
+
+Las clases dentro de App\Admin no deben acceder a App\User.

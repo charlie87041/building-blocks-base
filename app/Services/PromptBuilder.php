@@ -193,4 +193,43 @@ class PromptBuilder
             PROMPT;
 }
 
+    public static function forDeptracYaml(string $rulesText): string
+    {
+        $baseDir = app_path();
+        return <<<PROMPT
+        Eres un asistente experto en arquitectura de software y herramientas estáticas. Tu tarea es generar un archivo de configuración válido para Deptrac  (v2.0.5) en formato YAML, a partir de las siguientes reglas arquitectónicas expresadas en lenguaje natural.
+
+        Asume que el proyecto sigue una estructura estándar de Laravel, con namespaces como:
+        - Controllers: App\Http\Controllers
+        - Services: App\Services
+        - Repositories: App\Repositories
+        - Models: App\Models
+        - Infraestructura técnica: Illuminate\*, DB, Cache, Storage
+
+        Además, si se mencionan módulos como App\Admin o App\User, agrégalos como capas separadas.
+
+        Debes seguir estrictamente la estructura de configuración compatible con Deptrac v2.0.5:
+            * La raíz debe ser deptrac:
+            * Los patrones classNameRegex deben usar delimitadores de regex #...#
+            * Usa classNameRegex en lugar de class o className
+            * Cada \ debe escaparse como \\
+            * No uses parameters: ni escapes innecesarios como \\\\\\\\
+            * Usa comillas simples  para value si su valor corresponde a una expresion regular
+            * No uses ninguna etiqueta que no esté explicícitamente definida en https://github.com/deptrac/deptrac/blob/main/deptrac.yaml
+
+        La estructura del archivo debe incluir al menos:
+            * paths: apuntando a {$baseDir}
+            * exclude_files: para omitir tests
+            * layers: con sus respectivos collectors (usando classNameRegex) y value ('#...#')
+            * ruleset: que defina las dependencias permitidas entre capas
+
+        Estas son las reglas que debe respetar el archivo. Exprésalas exclusivamente mediante ruleset conforme al esquema oficial de Deptrac. No uses ninguna propiedad adicional:
+
+        {$rulesText}
+
+        Por favor genera solo el contenido YAML sin comentarios adicionales.
+        PROMPT;
+    }
+
+
 }

@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'clean_code_rules_location' => base_path('nl_rules.txt'),
 
     'pipes' => [
 
@@ -29,6 +30,10 @@ return [
         'docs' => [
             \App\Pipes\DocsGeneration\GenerateSwaggerSpecPipe::class,
             \App\Pipes\DocsGeneration\WriteSwaggerSpecToStoragePipe::class,
+        ],
+        'clean_code' => [
+            \App\Pipes\CleanCode\GenerateDeptracRulesPipe::class,
+            \App\Pipes\CleanCode\RunDeptracAnalysisPipe::class
         ]
 
     ],
