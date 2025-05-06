@@ -49,6 +49,7 @@ class BuildUnifiedCodeFilePipe
         $normalizedRoute = Helpers::normalizeRouteToFileName($route['uri'] ?? 'unknown');
         $storage->save("route-analysis/unified-code/{$normalizedRoute}.code.txt", ['raw' => implode("\n", $output)]);
         $this->saveIndexFile($storage, $route, $output);
+        $context->setExtractedCode(implode("\n", $output));
         return $next($context);
     }
 

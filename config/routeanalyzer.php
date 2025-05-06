@@ -25,6 +25,10 @@ return [
         ],
         'tests' => [
             \App\Pipes\TestGeneration\GenerateTestFilePipe::class
+        ],
+        'docs' => [
+            \App\Pipes\DocsGeneration\GenerateSwaggerSpecPipe::class,
+            \App\Pipes\DocsGeneration\WriteSwaggerSpecToStoragePipe::class,
         ]
 
     ],

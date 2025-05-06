@@ -4,6 +4,7 @@ namespace App\Services\Commission;
 
 use App\Services\Commission\Experts\LlmExpert;
 use App\Services\PromptBuilder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
 class Commission
@@ -12,16 +13,28 @@ class Commission
     protected  $focus;
     protected $selfReview;
 
-    public function __construct(string $focus = 'full')
+    protected $role;
+
+    public function __construct(string $focus = 'full', $role = '*')
     {
         $this->focus = $focus;
         $definitions = Config::get('llm.experts', []);
         $this->selfReview = config('llm.self_review_enabled', false);
-
+        $this->role = $role;
         foreach ($definitions as $name => $config) {
             $class = $config['expert_class'] ?? LlmExpert::class;
+            if ($this->hasRole($config, $role))
             $this->experts[$name] = new $class($name, $config, $this->selfReview);
         }
+    }
+    protected function hasRole(array $config, $role)
+    {
+        if ($role == '*')
+            return true;
+        $currentRoles = $config['roles'] ?? [];
+        if ( is_array($currentRoles) )
+            return in_array($role, $currentRoles) || in_array('*', $currentRoles) ;
+        return $currentRoles == $role || $currentRoles == '*';
     }
 
     public function generateMatrix(string $code): array
@@ -61,8 +74,11 @@ class Commission
         return PromptBuilder::normalizeTestMatrixPompt($json);
     }
 
-    public function getPrimaryExpert(): ?LlmExpert
+    public function getPrimaryExpert(?string $role = '*'): ?LlmExpert
     {
-        return reset($this->experts);
+        if (!$role || $role == '*')
+            return reset($this->experts);
+        $experts = array_filter($this->experts, fn($expert)=>$expert->hasRole($role));
+        return  reset($experts);
     }
 }

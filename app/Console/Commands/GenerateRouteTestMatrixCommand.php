@@ -34,7 +34,7 @@ class GenerateRouteTestMatrixCommand extends AnalyzeRouteTestMatrixCommand
             $this->error("NO matrix found for route $normalizedRoute");
             exit() ;
         }
-        $code = $storage->loadRaw("route-analysis/unified-code/{$normalizedRoute}.code.txt");
+        $code = $this->loadRouteCode($storage, $normalizedRoute);
         if (!$code){
             $this->error("NO code generated for $normalizedRoute");
             exit() ;

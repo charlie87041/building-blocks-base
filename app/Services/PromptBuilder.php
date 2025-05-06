@@ -154,5 +154,43 @@ class PromptBuilder
         PROMPT;
     }
 
+    public static function forSwaggerSpecGeneration(string $code, string $uri): string
+    {
+        return <<<PROMPT
+            A continuación se presenta el código consolidado de la ruta **{$uri}** de una aplicación Laravel. Este incluye el controlador, validaciones (FormRequests), middleware, servicios utilizados, eventos lanzados y lógica condicional.
+
+            Tu tarea es generar una especificación Swagger (OpenAPI 3.0.0) para **esa ruta exacta**, incorporando la mayor cantidad de detalles técnicos posibles.
+
+            ### Instrucciones:
+
+            1. **Usa exactamente la URI proporcionada**: `{$uri}`.
+            2. Incluye el **método HTTP** si es deducible. Por defecto, usa `post`.
+            3. Genera un `operationId` representativo como `createJob`, `deleteUser`, etc.
+            4. **Tag**: infiere desde el recurso implicado en la URI (ej. `/jobs/{id}` → `Job`).
+            5. **description**: redacta una descripción clara que incluya:
+               - Qué hace esta acción
+               - Qué payload espera
+               - Por cada campo del payload: tipo, validaciones(aplicables solo al HTTP method de la ruta) y restricciones. En el caso de las validaciones, redactalas en lenguaje común, no código y de ser posible resúmelas
+               - Qué eventos, notificaciones o broadcasts se lanzan
+            6. **requestBody**:
+               - Incluye el `schema` completo con `type`, `properties`, `required`, `enum`, `format`, etc.
+               - Para **cada propiedad**, agrega un ejemplo dentro de `examples`.
+                 - Si es un número: usar valores entre 1 y 9
+                 - Si es un string: usar valores representativos (ej. `"name": "John"`, `"email": "john@example.com"`)
+            7. **responses**:
+               - Documenta todas las posibles (`200`, `422`, `403`, `404`, etc.)
+               - Describe cada una y, si es posible, proporciona ejemplos de respuesta.
+               - En caso de que el controlador retorne un Illuminate\Http\Resources\Json o, a los efectos, utice un DTO para serializar el response, trata de inferir la estructura del response a través de estos recursos
+
+            ### Reglas:
+
+            - Devuelve un objeto JSON Swagger **válido** (sin explicaciones adicionales).
+            - Usa `"openapi": "3.0.0"` como versión raíz.
+            - Si no puedes inferir algún campo, simplemente omítelo.
+
+            Código a analizar:
+            {$code}
+            PROMPT;
+}
 
 }

@@ -23,7 +23,7 @@ class GenerateTestFilePipe
         $normalizedRoute = Helpers::normalizeRouteToFileName($route['uri'] ?? 'unknown');
         $format = config('llm.test_format', 'pest');
 
-        $expert = (new Commission())->getPrimaryExpert(); // primer experto
+        $expert = (new Commission())->getPrimaryExpert('tests'); // primer experto
 
         foreach ($matrix as $category => $scenarios) {
             if (!is_array($scenarios) || empty($scenarios)) {

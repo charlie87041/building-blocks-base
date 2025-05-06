@@ -56,6 +56,11 @@ abstract class BaseRouteCommand extends Command
         return $storage->load('route-analysis/class-dependency-map.json');
     }
 
+    protected function loadRouteCode($storage, $normalizedRoute)
+    {
+        return  $storage->loadRaw("route-analysis/unified-code/{$normalizedRoute}.code.txt");
+    }
+
     protected abstract function buildPipeline(array $pipes, $context);
 
     abstract protected function buildContext($route, $controller, $method);

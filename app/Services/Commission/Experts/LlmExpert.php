@@ -43,7 +43,7 @@ class LlmExpert
         $url = str_replace('{key}', $this->config['key'], $this->extra['url']);
         $headers = $this->buildHeaders();
         $payload = $this->buildPayload($prompt);
-
+dd($payload);
         $response = Http::withHeaders($headers)->post($url, $payload);
 
         if (!$response->successful()) {
@@ -79,6 +79,17 @@ class LlmExpert
         $decoded = json_decode($raw, true);
 
         return is_array($decoded) ? $decoded : [];
+    }
+
+
+    public function hasRole(string $role)
+    {
+        if ($role == '*')
+            return true;
+        $currentRoles = $this->config['roles'] ?? [];
+        if ( is_array($currentRoles) )
+            return in_array($role, $currentRoles) || in_array('*', $currentRoles) ;
+        return $currentRoles == $role || $currentRoles == '*';
     }
 
     protected function sendPrompt(string $prompt): array
@@ -147,6 +158,14 @@ class LlmExpert
 
         return $data;
     }
+
+    public function getConfig(): array
+    {
+        return $this->config;
+    }
+
+
+
 
 
 
