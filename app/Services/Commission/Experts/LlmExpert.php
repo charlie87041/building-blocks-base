@@ -43,8 +43,9 @@ class LlmExpert
         $url = str_replace('{key}', $this->config['key'], $this->extra['url']);
         $headers = $this->buildHeaders();
         $payload = $this->buildPayload($prompt);
-dd($payload);
-        $response = Http::withHeaders($headers)->post($url, $payload);
+        $response = Http::withHeaders($headers)
+            ->timeout(60)
+            ->post($url, $payload);
 
         if (!$response->successful()) {
             logger()->error("{$this->name} falló al generar contenido libre desde prompt", [
@@ -65,7 +66,9 @@ dd($payload);
         $headers = $this->buildHeaders();
         $payload = $this->buildPayload($prompt);
 
-        $response = Http::withHeaders($headers)->post($url, $payload);
+        $response = Http::withHeaders($headers)
+            ->timeout(60)
+            ->post($url, $payload);
 
         if (!$response->successful()) {
             logger()->error("Error al normalizar matriz con {$this->name}", [
@@ -98,7 +101,9 @@ dd($payload);
         $headers = $this->buildHeaders();
         $payload = $this->buildPayload($prompt);
 
-        $response = Http::withHeaders($headers)->post($url, $payload);
+        $response = Http::withHeaders($headers)
+            ->timeout(60)
+            ->post($url, $payload);
 
         if (!$response->successful()) {
             logger()->error("{$this->name} falló al enviar prompt", [
@@ -116,10 +121,6 @@ dd($payload);
     protected function buildHeaders(): array
     {
         $headers = $this->extra['headers'] ?? [];
-
-        foreach ($headers as $key => $value) {
-            $headers[$key] = str_replace('{key}', $this->config['key'], $value);
-        }
 
         return $headers;
     }

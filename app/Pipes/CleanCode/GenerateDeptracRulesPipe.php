@@ -6,6 +6,7 @@ use App\Contexts\AppArchitectureContext;
 use App\Services\Commission\Commission;
 use App\Services\PromptBuilder;
 use App\Support\Storage\GraphStorageFactory;
+use Symfony\Component\Yaml\Yaml;
 
 class GenerateDeptracRulesPipe
 {
@@ -18,14 +19,13 @@ class GenerateDeptracRulesPipe
         $rulesText = file_get_contents($rulesDir);
 
         $prompt = PromptBuilder::forDeptracYaml($rulesText);
-        dd($prompt);
         /** @var Commission $commission */
         $commission = app()->make(Commission::class);
 
         $yaml = $commission->getPrimaryExpert()->generateFromPrompt($prompt);
         $path = 'architecture/deptrac.yaml';
         $storage = GraphStorageFactory::make();
-        $storage->saveRaw($path, $yaml);
+        $storage->saveRaw($path, Yaml::dump($yaml, 4, 2));
         $context->setDeptracConfig($yaml);
 
         return $next($context);

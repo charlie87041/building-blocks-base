@@ -31,7 +31,7 @@ return [
             'extra' => [
                 'url' => 'https://api.openai.com/v1/chat/completions',
                 'headers' => [
-                    'Authorization' => 'Bearer {key}',
+                    'Authorization' => "Bearer ".env('OPENAI_SECRET'),
                 ],
                 'messages' => [
                     ['role' => 'system', 'content' => 'Eres un experto en pruebas de software y Laravel.'],
@@ -42,7 +42,7 @@ return [
             ],
         ],
 
-        'claude' => [
+     /*   'claude' => [
             'driver' => 'llm',
             'key' => env('ANTHROPIC_API_KEY'),
             'model' => 'claude-3-opus-20240229',
@@ -88,7 +88,7 @@ return [
                 'temperature' => 0.25,
             ],
         ],
-
+*/
     ],
 
 ];
