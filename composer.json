@@ -8,7 +8,8 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "yethee/tiktoken": "^0.10.0"
     },
     "require-dev": {
         "deptrac/deptrac": "^3.0",

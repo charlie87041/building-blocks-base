@@ -2,6 +2,7 @@
 
 namespace App\Services\Commission\Experts;
 
+use App\Http\Client\HttpClientCustom;
 use App\Services\PromptBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -14,12 +15,15 @@ class LlmExpert
     protected array $extra;
     protected  bool $selfReview;
 
+    protected bool $debug;
+
     public function __construct(string $name, array $config, bool $selfReview)
     {
         $this->name = $name;
         $this->config = $config;
         $this->extra = $config['extra'] ?? [];
         $this->selfReview = $selfReview;
+        $this->debug = config('llm.debug');
     }
     public function generate(string $code, string $focus = 'full'): array
     {
@@ -43,19 +47,16 @@ class LlmExpert
         $url = str_replace('{key}', $this->config['key'], $this->extra['url']);
         $headers = $this->buildHeaders();
         $payload = $this->buildPayload($prompt);
-        $response = Http::withHeaders($headers)
-            ->timeout(60)
-            ->post($url, $payload);
+        $response = HttpClientCustom::post($url, $payload, 60, $headers);
+        $response->logIfNotSuccessful("{$this->name} falló al generar contenido libre desde prompt")
+            ->trackCost();
 
-        if (!$response->successful()) {
-            logger()->error("{$this->name} falló al generar contenido libre desde prompt", [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
+        if (!$response->isSucessfull()) {
             return null;
         }
-
-        $raw = Arr::get($response->json(), $this->extra['response_path'] ?? '');
+        if ($this->debug)
+            logger($response->getCosts());
+        $raw = Arr::get($response->jsonData(), $this->extra['response_path'] ?? '');
 
         return is_string($raw) && trim($raw) !== '' ? $raw : null;
     }
@@ -66,19 +67,17 @@ class LlmExpert
         $headers = $this->buildHeaders();
         $payload = $this->buildPayload($prompt);
 
-        $response = Http::withHeaders($headers)
-            ->timeout(60)
-            ->post($url, $payload);
+        $response = HttpClientCustom::post($url, $payload, 60, $headers);
+        $response->logIfNotSuccessful("Error al normalizar matriz con {$this->name}")
+            ->trackCost();
 
-        if (!$response->successful()) {
-            logger()->error("Error al normalizar matriz con {$this->name}", [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
+        if (!$response->isSucessfull()) {
             return [];
         }
 
-        $raw = Arr::get($response->json(), $this->extra['response_path'] ?? '');
+        if ($this->debug)
+            logger($response->getCosts());
+        $raw = Arr::get($response->jsonData(), $this->extra['response_path'] ?? '');
         $decoded = json_decode($raw, true);
 
         return is_array($decoded) ? $decoded : [];
@@ -101,21 +100,21 @@ class LlmExpert
         $headers = $this->buildHeaders();
         $payload = $this->buildPayload($prompt);
 
-        $response = Http::withHeaders($headers)
-            ->timeout(60)
-            ->post($url, $payload);
+        $response = HttpClientCustom::post($url, $payload, 60, $headers);
+        $response
+            ->logIfNotSuccessful("{$this->name} falló al enviar prompt")
+            ->trackCost()
+        ;
 
-        if (!$response->successful()) {
-            logger()->error("{$this->name} falló al enviar prompt", [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
+        if (!$response->isSucessfull()) {
             return [];
         }
 
-        $raw = Arr::get($response->json(), $this->extra['response_path'] ?? '');
+        $raw = Arr::get($response->jsonData(), $this->extra['response_path'] ?? '');
         $decoded = json_decode($raw, true);
 
+        if ($this->debug)
+            logger($response->getCosts());
         return is_array($decoded) ? $decoded : [];
     }
     protected function buildHeaders(): array

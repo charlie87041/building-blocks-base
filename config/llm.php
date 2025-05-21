@@ -19,6 +19,9 @@ return [
 
     'test_format' =>'PHP Unit',// or Pest or....
 
+    //debug prompt
+    'debug' => env('DEBUG_LLM_REASONING', true),
+
     'experts' => [
         //roles defines for what operations will be used the expert: tests, code, docs or *(all)
 //TODO ADD DEEPSEEK...MAYBE
