@@ -2,6 +2,7 @@
 
 namespace BoostBrains\LaravelCodeCheck\Support\Storage;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class LocalGraphStorage  implements GraphStorageInterface
@@ -32,7 +33,11 @@ class LocalGraphStorage  implements GraphStorageInterface
 
     public function saveRaw(string $path, string $graph): void
     {
-        Storage::disk('local')->put($path, json_encode($graph, JSON_PRETTY_PRINT));
+        if (File::extension($path) == 'html') {
+            Storage::disk('local')->put($path, $graph);
+        }
+        else
+            Storage::disk('local')->put($path, json_encode($graph, JSON_PRETTY_PRINT));
     }
 
     public function new(string $dir): void

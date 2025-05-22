@@ -31,6 +31,10 @@ return [
             \BoostBrains\LaravelCodeCheck\Pipes\DocsGeneration\GenerateSwaggerSpecPipe::class,
             \BoostBrains\LaravelCodeCheck\Pipes\DocsGeneration\WriteSwaggerSpecToStoragePipe::class,
         ],
+        'refactor' => [
+            \BoostBrains\LaravelCodeCheck\Pipes\CodeRefactor\GenerateCodeRefactorPipe::class,
+            \BoostBrains\LaravelCodeCheck\Pipes\CodeRefactor\CodeRefactorRunHtmlPipe::class
+        ],
         'clean_code' => [
             \BoostBrains\LaravelCodeCheck\Pipes\CleanCode\GenerateDeptracRulesPipe::class,
             \BoostBrains\LaravelCodeCheck\Pipes\CleanCode\RunDeptracAnalysisPipe::class
