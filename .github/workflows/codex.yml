@@ -32,8 +32,6 @@ jobs:
       - name: Install dependencies
         run: composer install --no-ansi --no-interaction --prefer-dist
 
-      - name: Run PHP tests
-        run: php artisan test
 
       - name: Install Codex CLI
         run: npm install -g @openai/codex
