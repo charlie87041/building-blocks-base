@@ -46,7 +46,9 @@ jobs:
       # Ejemplo de paso: actualizar changelog automáticamente
       - name: Auto-update CHANGELOG with Codex
         run: |
+          export CODEX_QUIET_MODE=1
           codex -a auto-edit --quiet "Update CHANGELOG for next release"
+
 
       # Otro paso: revisión de seguridad (puedes duplicar con diferentes prompts)
       - name: Security review with Codex
