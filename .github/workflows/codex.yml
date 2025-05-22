@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       OPENAI_API_KEY: ${{ secrets.CODEX_API_KEY }}
+      CODEX_QUIET_MODE: 1 #deshabilita el modo consola para git action
     permissions:
       contents: read
       pull-requests: write
