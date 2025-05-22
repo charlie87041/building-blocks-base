@@ -27,6 +27,10 @@ return [
         'tests' => [
             \App\Pipes\TestGeneration\GenerateTestFilePipe::class
         ],
+        'refactor' => [
+            \App\Pipes\CodeRefactor\GenerateCodeRefactorPipe::class,
+            \App\Pipes\CodeRefactor\CodeRefactorRunHtmlPipe::class
+        ],
         'docs' => [
             \App\Pipes\DocsGeneration\GenerateSwaggerSpecPipe::class,
             \App\Pipes\DocsGeneration\WriteSwaggerSpecToStoragePipe::class,

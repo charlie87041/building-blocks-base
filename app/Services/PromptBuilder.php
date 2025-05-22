@@ -232,4 +232,56 @@ class PromptBuilder
     }
 
 
+    public static function forCodeRefactor(string $code): string
+    {
+        $baseDir = app_path();
+        return <<<PROMPT
+        Eres un arquitecto de software y desarrollador senior especializado en Laravel (versión 9/10) y PHP (8.1+). Te entregaré un fragmento de código que necesita ser refactorizado.
+
+        Objetivos de la refactorización:
+        1. Sustituir cualquier instanciación directa con `new` por **inyección de dependencias vía constructor** o a través del contenedor de servicios de Laravel (`app()->make()` cuando corresponda).
+        2. Asegurar que **servicios, repositorios y utilidades** sean completamente **mockeables** y desacoplados, cumpliendo con la inversión de dependencias (D de SOLID).
+        3. Aplicar los principios de **SOLID**, **KISS** y **DRY**, asegurando legibilidad, mantenibilidad y bajo acoplamiento.
+        4. Usar buenas prácticas de arquitectura en Laravel (Service Layer, Repositories, Contracts, etc.).
+        5. Identificar y señalar posibles mejoras adicionales (rendimiento, seguridad, organización).
+        6. Optimización estructural o de rendimiento si es aplicable.
+        7. Sugiere refactorizaciones estructurales como extraer/implementar interfaces, separar responsabilidades o consolidar reglas duplicadas
+
+        Entrega tu resultado en este formato:
+        -  Código refactorizado completo
+        -  Comentarios clave si es necesario (inline o al pie)
+        -  Breve justificación de los cambios aplicados
+
+        Contexto del código:
+        - Laravel 10+ y PHP 8.2+
+        - Arquitectura con capas de servicio, repositorio y validación separadas
+        - Preferencia por inyección de dependencias y constructor en lugar de `Facades` o `new`
+        - Se debe facilitar el uso de mocks en tests unitarios
+
+        Aquí está el código a refactorizar:
+        {$code}
+
+        Formatea la respuesta en **HTML válido**, con una estructura clara y legible, como si fuera un resumen visual de un Pull Request. Quiero  un documento HTML completo, renderizable en navegador (con etiquetas <html>, <head>, <body>, estilos inline y todo lo necesario para visualizarlo directamente).No generes fragmentos ni HTML parcial.
+
+        Para cada archivo modificado, muestra:
+        - El código original (resaltado con un fondo gris claro)
+        - El código refactorizado (resaltado con fondo verde claro)
+        - Una observación breve explicando el motivo del cambio
+
+        Para archivos nuevos sugeridos:
+        - Muestra únicamente el código nuevo y su observación, no es necesario mostrar un "antes"
+
+        Estructura recomendada del HTML(No ajustes los colores por legibilidad, aplica exactamente los estilos que te doy):
+        - Usa etiquetas `<section>` o `<div>` para separar cada archivo o clase analizada
+        - Usa `<pre><code>` para formatear los bloques de código
+        - Usa clases o estilos siguientes:
+          - `.original-code`:  con fondo #a7a7a7, padding de 1em,border-radius de 1px, border-style  dashed, border-color: gray
+          - `.refactored-code` :  con fondo #a7a7a7, padding de 1em,border-radius de 1px, border-style  dashed, border-color: gray
+          - `.comment` con fondo `#fff5b1` o similar para observaciones
+
+        El HTML debe ser válido, semántico y directamente renderizable por un navegador.
+        PROMPT;
+    }
+
+
 }
