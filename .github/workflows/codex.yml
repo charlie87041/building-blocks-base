@@ -1,0 +1,32 @@
+name: Build Docker File for graviton
+
+on:
+  push:
+    branches: [ "master" ]
+
+
+
+# This allows a subsequently queued workflow run to interrupt previous runs
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+# .github/workflows/codex-qa.yml
+
+jobs:
+  codex-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      - run: composer install --no-ansi --no-interaction --prefer-dist
+      - run: php artisan test
+      - name: Run Codex reviewer
+        uses: openai-labs/codex-action@v1
+        with:
+          github-token: ${{ secrets.GIT_TOKEN }}
+          codex-token:  ${{ secrets.CODEX_API_KEY }}
