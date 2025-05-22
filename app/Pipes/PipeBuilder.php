@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Pipes;
+namespace BoostBrains\LaravelCodeCheck\Pipes;
 
-use App\Contexts\AppArchitectureContext;
-use App\Contexts\RouteAnalysisContext;
-use App\Contexts\RouteExecutionContext;
-use App\Contexts\RouteTestMatrixContext;
-use App\Pipes\CleanCode\CleanCodePipeBuilder;
-use App\Pipes\DocsGeneration\DocsPipeBuilder;
-use App\Pipes\Routes\RouteAnalysisPipeBuilder;
-use App\Pipes\RoutesExecution\RouteExecutionPipeBuilder;
-use App\Pipes\RoutesMatrix\TestMatrixPipeBuilder;
-use App\Pipes\TestGeneration\TestExecutionPipeBuilder;
+use BoostBrains\LaravelCodeCheck\Contexts\AppArchitectureContext;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteAnalysisContext;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteExecutionContext;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteTestMatrixContext;
+use BoostBrains\LaravelCodeCheck\Pipes\CleanCode\CleanCodePipeBuilder;
+use BoostBrains\LaravelCodeCheck\Pipes\DocsGeneration\DocsPipeBuilder;
+use BoostBrains\LaravelCodeCheck\Pipes\Routes\RouteAnalysisPipeBuilder;
+use BoostBrains\LaravelCodeCheck\Pipes\RoutesExecution\RouteExecutionPipeBuilder;
+use BoostBrains\LaravelCodeCheck\Pipes\RoutesMatrix\TestMatrixPipeBuilder;
+use BoostBrains\LaravelCodeCheck\Pipes\TestGeneration\TestExecutionPipeBuilder;
 
 class PipeBuilder
 {

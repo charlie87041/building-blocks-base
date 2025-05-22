@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Pipes\Routes;
+namespace BoostBrains\LaravelCodeCheck\Pipes\Routes;
 
-use App\Contexts\RouteAnalysisContext;
-use App\Support\Storage\GraphStorageFactory;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteAnalysisContext;
+use BoostBrains\LaravelCodeCheck\Support\Storage\GraphStorageFactory;
 
 class BuildOwlOntologyPipe
 {

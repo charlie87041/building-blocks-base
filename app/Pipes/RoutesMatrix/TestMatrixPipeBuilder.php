@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Pipes\RoutesMatrix;
+namespace BoostBrains\LaravelCodeCheck\Pipes\RoutesMatrix;
 
-use App\Contexts\RouteAnalysisContext;
-use App\Contexts\RouteExecutionContext;
-use App\Contexts\RouteTestMatrixContext;
-use App\Pipes\PipeBuilderInterface;
-use App\WrapsTransactionsTrait;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteAnalysisContext;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteExecutionContext;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteTestMatrixContext;
+use BoostBrains\LaravelCodeCheck\Pipes\PipeBuilderInterface;
+use BoostBrains\LaravelCodeCheck\WrapsTransactionsTrait;
 use Illuminate\Pipeline\Pipeline;
 
 class TestMatrixPipeBuilder implements PipeBuilderInterface

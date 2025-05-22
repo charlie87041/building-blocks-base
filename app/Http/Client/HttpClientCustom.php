@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Client;
+namespace BoostBrains\LaravelCodeCheck\Http\Client;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Yethee\Tiktoken\EncoderProvider;

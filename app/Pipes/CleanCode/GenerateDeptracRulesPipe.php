@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Pipes\CleanCode;
+namespace BoostBrains\LaravelCodeCheck\Pipes\CleanCode;
 
-use App\Contexts\AppArchitectureContext;
-use App\Services\Commission\Commission;
-use App\Services\PromptBuilder;
-use App\Support\Storage\GraphStorageFactory;
+use BoostBrains\LaravelCodeCheck\Contexts\AppArchitectureContext;
+use BoostBrains\LaravelCodeCheck\Services\Commission\Commission;
+use BoostBrains\LaravelCodeCheck\Services\PromptBuilder;
+use BoostBrains\LaravelCodeCheck\Support\Storage\GraphStorageFactory;
 use Symfony\Component\Yaml\Yaml;
 
 class GenerateDeptracRulesPipe

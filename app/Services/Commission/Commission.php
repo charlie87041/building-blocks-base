@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\Commission;
+namespace BoostBrains\LaravelCodeCheck\Services\Commission;
 
-use App\Services\Commission\Experts\LlmExpert;
-use App\Services\PromptBuilder;
+use BoostBrains\LaravelCodeCheck\Services\Commission\Experts\LlmExpert;
+use BoostBrains\LaravelCodeCheck\Services\PromptBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 

@@ -30,7 +30,7 @@ return [
             'key' => env('OPENAI_API_KEY'),
             'model' => 'gpt-4-turbo',
             'roles' => '*',
-            'expert_class' => \App\Services\Commission\Experts\LlmExpert::class,
+            'expert_class' => \BoostBrains\LaravelCodeCheck\Services\Commission\Experts\LlmExpert::class,
             'extra' => [
                 'url' => 'https://api.openai.com/v1/chat/completions',
                 'headers' => [
@@ -50,7 +50,7 @@ return [
             'key' => env('ANTHROPIC_API_KEY'),
             'model' => 'claude-3-opus-20240229',
             'roles' => ['tests'],
-            'expert_class' => \App\Services\Commission\Experts\LlmExpert::class,
+            'expert_class' => \BoostBrains\LaravelCodeCheck\Services\Commission\Experts\LlmExpert::class,
             'extra' => [
                 'url' => 'https://api.anthropic.com/v1/messages',
                 'headers' => [
@@ -76,7 +76,7 @@ return [
             'key' => env('GOOGLE_GEMINI_API_KEY'),
             'model' => 'gemini-pro',
             'roles' => ['tests'],
-            'expert_class' => \App\Services\Commission\Experts\LlmExpert::class,
+            'expert_class' => \BoostBrains\LaravelCodeCheck\Services\Commission\Experts\LlmExpert::class,
             'extra' => [
                 'url' => 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={key}',
                 'headers' => [

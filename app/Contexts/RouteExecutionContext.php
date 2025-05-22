@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Contexts;
+namespace BoostBrains\LaravelCodeCheck\Contexts;
 
-use App\Contexts\BaseContext;
+use BoostBrains\LaravelCodeCheck\Contexts\BaseContext;
 
 /**
  * @method array getRoute()

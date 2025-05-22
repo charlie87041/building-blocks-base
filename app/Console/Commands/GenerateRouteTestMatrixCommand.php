@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Console\Commands;
+namespace BoostBrains\LaravelCodeCheck\Console\Commands;
 
-use App\Pipes\RoutesMatrix\TestMatrix;
-use App\Support\Helpers;
-use App\Support\Storage\GraphStorageFactory;
+use BoostBrains\LaravelCodeCheck\Pipes\RoutesMatrix\TestMatrix;
+use BoostBrains\LaravelCodeCheck\Support\Helpers;
+use BoostBrains\LaravelCodeCheck\Support\Storage\GraphStorageFactory;
 use Illuminate\Console\Command;
-use App\Contexts\RouteTestMatrixContext;
-use App\Pipes\PipeBuilder;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteTestMatrixContext;
+use BoostBrains\LaravelCodeCheck\Pipes\PipeBuilder;
 use function Laravel\Prompts\error;
 
 class GenerateRouteTestMatrixCommand extends AnalyzeRouteTestMatrixCommand

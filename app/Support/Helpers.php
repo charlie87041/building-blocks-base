@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support;
+namespace BoostBrains\LaravelCodeCheck\Support;
 
 class Helpers
 {

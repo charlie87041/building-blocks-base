@@ -1,7 +1,7 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
-    "type": "project",
+    "name": "boost-brains/laravel-code-check",
+    "type": "library",
     "description": "The skeleton application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
+            "BoostBrains\\LaravelCodeCheck\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
@@ -60,6 +60,9 @@
     },
     "extra": {
         "laravel": {
+            "providers": [
+                "BoostBrains\\LaravelCodeCheck\\Providers\\LaravelCodeCheckServiceProvider"
+            ],
             "dont-discover": []
         }
     },

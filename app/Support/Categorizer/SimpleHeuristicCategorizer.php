@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Categorizer;
+namespace BoostBrains\LaravelCodeCheck\Support\Categorizer;
 
 class SimpleHeuristicCategorizer implements ClassCategorizerInterface
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Pipes\RoutesMatrix;
+namespace BoostBrains\LaravelCodeCheck\Pipes\RoutesMatrix;
 
-use App\Contexts\RouteTestMatrixContext;
-use App\Support\Helpers;
-use App\Support\Storage\GraphStorageFactory;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteTestMatrixContext;
+use BoostBrains\LaravelCodeCheck\Support\Helpers;
+use BoostBrains\LaravelCodeCheck\Support\Storage\GraphStorageFactory;
 
 class WriteTestMatrixToStoragePipe
 {

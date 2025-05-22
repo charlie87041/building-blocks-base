@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Console\Commands;
+namespace BoostBrains\LaravelCodeCheck\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Pipes\PipeBuilder;
-use App\Support\Storage\GraphStorageFactory;
+use BoostBrains\LaravelCodeCheck\Pipes\PipeBuilder;
+use BoostBrains\LaravelCodeCheck\Support\Storage\GraphStorageFactory;
 
 abstract class BaseRouteCommand extends Command
 {
@@ -31,7 +31,7 @@ abstract class BaseRouteCommand extends Command
             $pipeline = $this->buildPipeline($pipes, $context);
             $result = $pipeline->perform();
 
-            if ($result instanceof \App\RuntimeErrorBag) {
+            if ($result instanceof \BoostBrains\LaravelCodeCheck\RuntimeErrorBag) {
                 $this->error('Error analyzing route: ' . $route->uri);
                 $this->error($result->getMessage());
                 continue;

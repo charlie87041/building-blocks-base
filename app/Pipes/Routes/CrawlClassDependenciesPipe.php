@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Pipes\Routes;
+namespace BoostBrains\LaravelCodeCheck\Pipes\Routes;
 
-use App\Contexts\RouteAnalysisContext;
-use App\Support\Parser\PhpParserFactory;
-use App\Support\Parser\PhpParserInterface;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteAnalysisContext;
+use BoostBrains\LaravelCodeCheck\Support\Parser\PhpParserFactory;
+use BoostBrains\LaravelCodeCheck\Support\Parser\PhpParserInterface;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
 use ReflectionMethod;

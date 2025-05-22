@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Console\Commands;
+namespace BoostBrains\LaravelCodeCheck\Console\Commands;
 
-use App\Contexts\RouteExecutionContext;
-use App\Pipes\PipeBuilder;
-use App\Support\Helpers;
-use App\Support\Storage\GraphStorageFactory;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteExecutionContext;
+use BoostBrains\LaravelCodeCheck\Pipes\PipeBuilder;
+use BoostBrains\LaravelCodeCheck\Support\Helpers;
+use BoostBrains\LaravelCodeCheck\Support\Storage\GraphStorageFactory;
 use Illuminate\Console\Command;
 
 class RoutesDocSwaggerCommand extends BaseRouteCommand

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Pipes\Routes;
+namespace BoostBrains\LaravelCodeCheck\Pipes\Routes;
 
-use App\Contexts\RouteAnalysisContext;
-use App\Pipes\PipeBuilderInterface;
-use App\WrapsTransactionsTrait;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteAnalysisContext;
+use BoostBrains\LaravelCodeCheck\Pipes\PipeBuilderInterface;
+use BoostBrains\LaravelCodeCheck\WrapsTransactionsTrait;
 use Illuminate\Pipeline\Pipeline;
 
 class RouteAnalysisPipeBuilder implements PipeBuilderInterface

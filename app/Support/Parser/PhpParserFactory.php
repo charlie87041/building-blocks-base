@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Parser;
+namespace BoostBrains\LaravelCodeCheck\Support\Parser;
 
 class PhpParserFactory
 {

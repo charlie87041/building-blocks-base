@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Pipes\RoutesMatrix;
+namespace BoostBrains\LaravelCodeCheck\Pipes\RoutesMatrix;
 
-use App\Contexts\RouteTestMatrixContext;
-use App\Services\Commission\Commission;
-use App\Support\Helpers;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteTestMatrixContext;
+use BoostBrains\LaravelCodeCheck\Services\Commission\Commission;
+use BoostBrains\LaravelCodeCheck\Support\Helpers;
 
 abstract class TestMatrix
 {

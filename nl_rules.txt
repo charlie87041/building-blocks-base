@@ -10,4 +10,4 @@ Los modelos no deben depender de ninguna otra capa.
 
 Solo la capa Infrastructure puede acceder a DB:: o Cache::.
 
-Las clases dentro de App\Admin no deben acceder a App\User.
+Las clases dentro de BoostBrains\LaravelCodeCheck\Admin no deben acceder a BoostBrains\LaravelCodeCheck\User.

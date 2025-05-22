@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Pipes\RoutesExecution;
+namespace BoostBrains\LaravelCodeCheck\Pipes\RoutesExecution;
 
-use App\Contexts\RouteExecutionContext;
-use App\Support\Helpers;
-use App\Support\Storage\GraphStorageFactory;
-use App\Support\Storage\GraphStorageInterface;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteExecutionContext;
+use BoostBrains\LaravelCodeCheck\Support\Helpers;
+use BoostBrains\LaravelCodeCheck\Support\Storage\GraphStorageFactory;
+use BoostBrains\LaravelCodeCheck\Support\Storage\GraphStorageInterface;
 use ReflectionClass;
 use ReflectionMethod;
 use Illuminate\Support\Facades\Log;

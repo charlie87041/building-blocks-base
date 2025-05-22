@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Pipes\CleanCode;
+namespace BoostBrains\LaravelCodeCheck\Pipes\CleanCode;
 
-use App\Contexts\AppArchitectureContext;
-use App\Pipes\PipeBuilderInterface;
-use App\WrapsTransactionsTrait;
+use BoostBrains\LaravelCodeCheck\Contexts\AppArchitectureContext;
+use BoostBrains\LaravelCodeCheck\Pipes\PipeBuilderInterface;
+use BoostBrains\LaravelCodeCheck\WrapsTransactionsTrait;
 use Illuminate\Pipeline\Pipeline;
 
 class

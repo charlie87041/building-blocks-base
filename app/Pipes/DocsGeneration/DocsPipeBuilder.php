@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Pipes\DocsGeneration;
+namespace BoostBrains\LaravelCodeCheck\Pipes\DocsGeneration;
 
-use App\Contexts\RouteAnalysisContext;
-use App\Contexts\RouteExecutionContext;
-use App\Contexts\RouteTestMatrixContext;
-use App\Pipes\PipeBuilderInterface;
-use App\WrapsTransactionsTrait;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteAnalysisContext;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteExecutionContext;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteTestMatrixContext;
+use BoostBrains\LaravelCodeCheck\Pipes\PipeBuilderInterface;
+use BoostBrains\LaravelCodeCheck\WrapsTransactionsTrait;
 use Illuminate\Pipeline\Pipeline;
 
 class DocsPipeBuilder implements PipeBuilderInterface

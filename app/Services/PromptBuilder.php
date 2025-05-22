@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace BoostBrains\LaravelCodeCheck\Services;
 
-use App\Pipes\RoutesMatrix\TestMatrix;
+use BoostBrains\LaravelCodeCheck\Pipes\RoutesMatrix\TestMatrix;
 
 class PromptBuilder
 {
@@ -200,13 +200,13 @@ class PromptBuilder
         Eres un asistente experto en arquitectura de software y herramientas estáticas. Tu tarea es generar un archivo de configuración válido para Deptrac  (v2.0.5) en formato YAML, a partir de las siguientes reglas arquitectónicas expresadas en lenguaje natural.
 
         Asume que el proyecto sigue una estructura estándar de Laravel, con namespaces como:
-        - Controllers: App\Http\Controllers
-        - Services: App\Services
-        - Repositories: App\Repositories
-        - Models: App\Models
+        - Controllers: BoostBrains\LaravelCodeCheck\Http\Controllers
+        - Services: BoostBrains\LaravelCodeCheck\Services
+        - Repositories: BoostBrains\LaravelCodeCheck\Repositories
+        - Models: BoostBrains\LaravelCodeCheck\Models
         - Infraestructura técnica: Illuminate\*, DB, Cache, Storage
 
-        Además, si se mencionan módulos como App\Admin o App\User, agrégalos como capas separadas.
+        Además, si se mencionan módulos como BoostBrains\LaravelCodeCheck\Admin o BoostBrains\LaravelCodeCheck\User, agrégalos como capas separadas.
 
         Debes seguir estrictamente la estructura de configuración compatible con Deptrac v2.0.5:
             * La raíz debe ser deptrac:

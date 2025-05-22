@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\Commission\Experts;
+namespace BoostBrains\LaravelCodeCheck\Services\Commission\Experts;
 
-use App\Http\Client\HttpClientCustom;
-use App\Services\PromptBuilder;
+use BoostBrains\LaravelCodeCheck\Http\Client\HttpClientCustom;
+use BoostBrains\LaravelCodeCheck\Services\PromptBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;

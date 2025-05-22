@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pipes\RoutesMatrix;
+namespace BoostBrains\LaravelCodeCheck\Pipes\RoutesMatrix;
 
 class GenerateLogicMatrixPipe extends TestMatrix
 {
