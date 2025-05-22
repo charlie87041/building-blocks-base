@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Pipes;
+namespace BoostBrains\LaravelCodeCheck\Pipes;
 
-use App\Contexts\BaseContext;
+use BoostBrains\LaravelCodeCheck\Contexts\BaseContext;
 
 class DebugPipe
 {

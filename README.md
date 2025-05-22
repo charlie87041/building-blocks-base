@@ -1,6 +1,7 @@
 # Building Blocks Base
 
-Aplicación de ejemplo para Laravel que automatiza tareas de análisis y documentación de rutas.
+Este repositorio se distribuye como el paquete **boost-brains/laravel-code-check**.
+Automatiza tareas de análisis y documentación de rutas en proyectos Laravel.
 Las pipelines definidas en `config/routeanalyzer.php` procesan las rutas,
 generan archivos con el código unificado, matrices de pruebas, especificaciones Swagger
 y verifican reglas arquitectónicas con Deptrac.
@@ -11,9 +12,17 @@ y verifican reglas arquitectónicas con Deptrac.
 3. Copiar `.env.example` a `.env` y configurar las credenciales necesarias (por ejemplo, claves para los proveedores LLM en `config/llm.php`).
 4. Ejecutar las migraciones y arrancar el servidor con:
    ```bash
-   php artisan migrate
-   php artisan serve
-   ```
+    php artisan migrate
+    php artisan serve
+    ```
+
+### Instalar como dependencia
+
+En otro proyecto Laravel puedes agregarlo ejecutando:
+
+```bash
+composer require boost-brains/laravel-code-check
+```
 
 ## Comandos Artisan
 
@@ -52,6 +61,20 @@ Los modelos no deben depender de ninguna otra capa.
 Los expertos LLM (por defecto GPT-4 Turbo) se configuran en `config/llm.php`.
 Se permite auto-revisión de respuestas (`self_review_enabled`) y cada experto puede
 limitarse a cierto rol (tests, docs, etc.).
+
+## Integración con Codex
+
+Para que cada pull request se analice automáticamente y se ejecuten las
+pruebas en GitHub Actions, es necesario definir la clave `CODEX_API_KEY` como
+secreto del repositorio:
+
+1. Abre la sección **Settings** del repositorio en GitHub.
+2. Navega a **Secrets and variables** > **Actions**.
+3. Pulsa **New repository secret** e introduce `CODEX_API_KEY` como nombre.
+4. Copia la clave proporcionada por Codex y guarda los cambios.
+
+La workflow situada en `.github/workflows/codex-qa.yml` usará este secreto para
+enviar el código a Codex y ejecutar `composer test` en cada PR.
 
 ---
 

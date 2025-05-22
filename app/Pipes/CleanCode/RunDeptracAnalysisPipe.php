@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Pipes\CleanCode;
+namespace BoostBrains\LaravelCodeCheck\Pipes\CleanCode;
 
-use App\Contexts\AppArchitectureContext;
-use App\Support\Storage\GraphStorageFactory;
+use BoostBrains\LaravelCodeCheck\Contexts\AppArchitectureContext;
+use BoostBrains\LaravelCodeCheck\Support\Storage\GraphStorageFactory;
 
 class RunDeptracAnalysisPipe
 {

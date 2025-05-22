@@ -1,0 +1,32 @@
+name: Codex QA
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  codex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run tests
+        run: composer test
+
+      - name: Codex analysis
+        uses: docker://ghcr.io/codex-qa/cli:latest
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CODEX_API_KEY: ${{ secrets.CODEX_API_KEY }}

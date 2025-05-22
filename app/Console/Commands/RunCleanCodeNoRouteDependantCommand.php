@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Console\Commands;
+namespace BoostBrains\LaravelCodeCheck\Console\Commands;
 
-use App\Contexts\AppArchitectureContext;
-use App\Pipes\PipeBuilder;
+use BoostBrains\LaravelCodeCheck\Contexts\AppArchitectureContext;
+use BoostBrains\LaravelCodeCheck\Pipes\PipeBuilder;
 use Illuminate\Console\Command;
 
 class RunCleanCodeNoRouteDependantCommand extends Command
@@ -19,7 +19,7 @@ class RunCleanCodeNoRouteDependantCommand extends Command
         $pipeline = $this->buildPipeline($pipes, $context);
         $result = $pipeline->perform();
 
-        if ($result instanceof \App\RuntimeErrorBag) {
+        if ($result instanceof \BoostBrains\LaravelCodeCheck\RuntimeErrorBag) {
             $this->error($result->getMessage());
             return Command::FAILURE;
         }

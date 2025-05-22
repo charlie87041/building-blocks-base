@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Pipes\TestGeneration;
+namespace BoostBrains\LaravelCodeCheck\Pipes\TestGeneration;
 
-use App\Contexts\RouteTestMatrixContext;
-use App\Services\Commission\Commission;
-use App\Services\PromptBuilder;
-use App\Support\Helpers;
-use App\Support\Storage\GraphStorageFactory;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteTestMatrixContext;
+use BoostBrains\LaravelCodeCheck\Services\Commission\Commission;
+use BoostBrains\LaravelCodeCheck\Services\PromptBuilder;
+use BoostBrains\LaravelCodeCheck\Support\Helpers;
+use BoostBrains\LaravelCodeCheck\Support\Storage\GraphStorageFactory;
 
 class GenerateTestFilePipe
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Console\Commands;
+namespace BoostBrains\LaravelCodeCheck\Console\Commands;
 
-use App\Contexts\RouteAnalysisContext;
-use App\Pipes\PipeBuilder;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteAnalysisContext;
+use BoostBrains\LaravelCodeCheck\Pipes\PipeBuilder;
 
 class AnalyzeRoutesCommand extends BaseRouteCommand
 {

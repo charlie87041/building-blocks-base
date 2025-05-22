@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contexts;
+namespace BoostBrains\LaravelCodeCheck\Contexts;
 
 /**
  *

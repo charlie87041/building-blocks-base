@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace BoostBrains\LaravelCodeCheck;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

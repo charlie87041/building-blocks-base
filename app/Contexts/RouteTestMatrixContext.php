@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contexts;
+namespace BoostBrains\LaravelCodeCheck\Contexts;
 
 use Coreinvent\Component\Pipeline\Context\StateContext;
 

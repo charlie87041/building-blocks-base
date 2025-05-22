@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Pipes\DocsGeneration;
+namespace BoostBrains\LaravelCodeCheck\Pipes\DocsGeneration;
 
-use App\Contexts\RouteExecutionContext;
-use App\Support\Helpers;
-use App\Support\Storage\GraphStorageFactory;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteExecutionContext;
+use BoostBrains\LaravelCodeCheck\Support\Helpers;
+use BoostBrains\LaravelCodeCheck\Support\Storage\GraphStorageFactory;
 
 class WriteSwaggerSpecToStoragePipe
 {

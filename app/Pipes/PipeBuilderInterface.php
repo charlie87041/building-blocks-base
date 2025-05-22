@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Pipes;
+namespace BoostBrains\LaravelCodeCheck\Pipes;
 
 interface PipeBuilderInterface
 {

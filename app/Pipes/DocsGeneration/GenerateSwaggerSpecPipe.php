@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Pipes\DocsGeneration;
+namespace BoostBrains\LaravelCodeCheck\Pipes\DocsGeneration;
 
-use App\Contexts\RouteExecutionContext;
-use App\Services\Commission\Commission;
-use App\Services\PromptBuilder;
+use BoostBrains\LaravelCodeCheck\Contexts\RouteExecutionContext;
+use BoostBrains\LaravelCodeCheck\Services\Commission\Commission;
+use BoostBrains\LaravelCodeCheck\Services\PromptBuilder;
 
 class GenerateSwaggerSpecPipe
 {

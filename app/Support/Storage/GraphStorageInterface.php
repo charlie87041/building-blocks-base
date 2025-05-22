@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support\Storage;
+namespace BoostBrains\LaravelCodeCheck\Support\Storage;
 
 interface GraphStorageInterface
 {
