@@ -26,6 +26,9 @@ jobs:
         with:
           php-version: '8.2'
 
+      - name: Ensure bootstrap/cache directory exists
+        run: mkdir -p bootstrap/cache
+
       - name: Install dependencies
         run: composer install --no-ansi --no-interaction --prefer-dist
 
